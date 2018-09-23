@@ -57,6 +57,69 @@ namespace Tracer
     }
 
 
+    public class ThreadInfo
+    {
+        private Stack<MethodInfo> stackOfMethods;
+        private List<MethodInfo> listOfExternalMethods;
+
+        public int ThreadID { get; set; }
+
+        internal ThreadInfo(int id)
+        {
+            ThreadID = id;
+            stackOfMethods = new Stack<MethodInfo>();
+            listOfExternalMethods = new List<MethodInfo>();
+        }
+
+        public string Time
+        {
+            get
+            {
+                long time = 0;
+                foreach (MethodInfo method in listOfExternalMethods)
+                {
+                    time += method.Time;
+                }
+                return time.ToString();
+            }
+            set { }
+        }
+
+        public List<MethodInfo> InsideMethods
+        {
+            get
+            {
+                return new List<MethodInfo>(listOfExternalMethods);
+            }
+            set { }
+        }
+
+        protected void ThreadMethodAdd(MethodInfo method)
+        {
+            if (stackOfMethods.Count >= 1)
+            {
+                stackOfMethods.Peek().InsideMethodAdd(method);
+            }
+            else
+            {
+                listOfExternalMethods.Add(method);
+            }
+            stackOfMethods.Push(method);
+        }
+
+        internal void StartMethodTracing(MethodInfo method)
+        {
+            ThreadMethodAdd(method);
+            method.StartTrace();
+        }
+
+        internal void StopMethodTracing()
+        {
+            stackOfMethods.Pop().StopTrace();
+        }
+    }
+
+
     public class TraceResult
     {
     }
