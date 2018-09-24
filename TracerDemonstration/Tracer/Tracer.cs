@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tracer
@@ -23,11 +24,13 @@ namespace Tracer
             var method = new MethodInfo();
             method.ClassName = mb.ReflectedType.Name;
             method.Name = mb.Name;
+            ThreadInfo currentThread = res.GetThread(Thread.CurrentThread.ManagedThreadId);
+            currentThread.StartMethodTracing(method);
         }
 
         public void StopTrace()
         {
-            
+            res.GetThread(Thread.CurrentThread.ManagedThreadId).StopMethodTracing();            
         }
 
         public TraceResult GetTraceResult()

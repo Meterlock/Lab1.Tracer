@@ -140,5 +140,14 @@ namespace Tracer
             }
             return thread;
         }
+
+        public List<ThreadInfo> Threads
+        {
+            get
+            {
+                return new List<ThreadInfo>(new SortedDictionary<int, ThreadInfo>(threads).Values);
+            }
+            set { }
+        }
     }
 }
