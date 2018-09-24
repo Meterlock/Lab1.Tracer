@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Tracer
         private Stopwatch timer;
         private List<MethodInfo> insideMethods;        
 
-        public MethodInfo()
+        internal MethodInfo()
         {
             timer = new Stopwatch();
             insideMethods = new List<MethodInfo>();           
@@ -94,7 +95,7 @@ namespace Tracer
             set { }
         }
 
-        protected void ThreadMethodAdd(MethodInfo method)
+        private void ThreadMethodAdd(MethodInfo method)
         {
             if (stackOfMethods.Count >= 1)
             {
@@ -122,5 +123,22 @@ namespace Tracer
 
     public class TraceResult
     {
+        private ConcurrentDictionary<int, ThreadInfo> threads;
+
+        internal TraceResult()
+        {
+            threads = new ConcurrentDictionary<int, ThreadInfo>();
+        }
+                
+        internal ThreadInfo GetThread(int id)
+        {
+            ThreadInfo thread;
+            if (!threads.TryGetValue(id, out thread))
+            {
+                thread = new ThreadInfo(id);
+                threads[id] = thread;
+            }
+            return thread;
+        }
     }
 }
