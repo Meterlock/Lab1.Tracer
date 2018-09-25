@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tracer
 {
-    class ConsoleWriter : IWriter
+    public class ConsoleWriter : IWriter
     {
         public void Write(ISerializer serializer, TraceResult traceResult)
         {

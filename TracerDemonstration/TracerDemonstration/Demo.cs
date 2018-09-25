@@ -20,7 +20,7 @@ namespace TracerDemonstration
         {
             _tracer.StartTrace();
 
-            Thread.Sleep(new Random().Next(10, 200));
+            Thread.Sleep(new Random().Next(10, 500));
 
             _tracer.StopTrace();
         }
@@ -29,7 +29,7 @@ namespace TracerDemonstration
         {
             _tracer.StartTrace();
 
-            Thread.Sleep(new Random().Next(10, 200));
+            Thread.Sleep(new Random().Next(10, 500));
             XMethod();
 
             _tracer.StopTrace();
@@ -39,7 +39,7 @@ namespace TracerDemonstration
         {
             _tracer.StartTrace();
 
-            Thread.Sleep(new Random().Next(10, 200));
+            Thread.Sleep(new Random().Next(10, 500));
             var threadList = new List<Thread>();
             threadList.Add(new Thread(XMethod));
             threadList.Add(new Thread(XXMethod));
@@ -65,6 +65,8 @@ namespace TracerDemonstration
             tracer = new Tracer.Tracer();
             var test = new TestMethods(tracer);
             test.XXXMethod();
+
+            new ConsoleWriter().Write(new SerializerJSON(), tracer.GetTraceResult());
 
             Console.ReadKey();
         }

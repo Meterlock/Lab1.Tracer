@@ -3,11 +3,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tracer
 {
+    [Serializable]
+    [DataContract(Name = "Method")]
     public class MethodInfo
     {
         private Stopwatch timer;
@@ -19,7 +22,9 @@ namespace Tracer
             insideMethods = new List<MethodInfo>();           
         }
 
+        [DataMember(Name = "Name")]
         public string Name { get; set; }
+        [DataMember(Name = "Class")]
         public string ClassName { get; set; }
 
         public long Time
@@ -30,8 +35,10 @@ namespace Tracer
             }
         }
 
+        [DataMember(Name = "Time")]
         public string TimeStr { get { return Time.ToString() + "ms"; } set { } }
 
+        [DataMember(Name = "Methods")]
         public List<MethodInfo> InsideMethods
         {
             get
@@ -58,11 +65,14 @@ namespace Tracer
     }
 
 
+    [Serializable]
+    [DataContract(Name = "Thread")]
     public class ThreadInfo
     {
         private Stack<MethodInfo> stackOfMethods;
         private List<MethodInfo> listOfExternalMethods;
 
+        [DataMember(Name = "ID")]
         public int ThreadID { get; set; }
 
         internal ThreadInfo(int id)
@@ -72,6 +82,7 @@ namespace Tracer
             listOfExternalMethods = new List<MethodInfo>();
         }
 
+        [DataMember(Name = "Time")]
         public string Time
         {
             get
@@ -86,6 +97,7 @@ namespace Tracer
             set { }
         }
 
+        [DataMember(Name = "Methods")]
         public List<MethodInfo> InsideMethods
         {
             get
@@ -121,6 +133,8 @@ namespace Tracer
     }
 
 
+    [Serializable]
+    [DataContract(Name = "Trace result")]
     public class TraceResult
     {
         private ConcurrentDictionary<int, ThreadInfo> threads;
@@ -141,6 +155,7 @@ namespace Tracer
             return thread;
         }
 
+        [DataMember(Name = "Threads")]
         public List<ThreadInfo> Threads
         {
             get
