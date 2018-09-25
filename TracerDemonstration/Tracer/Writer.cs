@@ -17,4 +17,23 @@ namespace Tracer
             }
         }
     }
+
+
+    public class FileWriter : IWriter
+    {
+        private string _filename;
+
+        public FileWriter(string filename)
+        {
+            _filename = filename;
+        }
+
+        public void Write(ISerializer serializer, TraceResult traceResult)
+        {
+            using (var fs = new FileStream(_filename, FileMode.Create))
+            {
+                serializer.Serialize(fs, traceResult);
+            }
+        }
+    }
 }

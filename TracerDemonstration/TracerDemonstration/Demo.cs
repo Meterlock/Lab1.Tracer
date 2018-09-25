@@ -40,6 +40,7 @@ namespace TracerDemonstration
             _tracer.StartTrace();
 
             Thread.Sleep(new Random().Next(10, 500));
+            XXMethod();
             var threadList = new List<Thread>();
             threadList.Add(new Thread(XMethod));
             threadList.Add(new Thread(XXMethod));
@@ -67,6 +68,8 @@ namespace TracerDemonstration
             test.XXXMethod();
 
             new ConsoleWriter().Write(new SerializerJSON(), tracer.GetTraceResult());
+            string filename = "D:\\УНИВЕР\\5 семестр\\ThreadsInfo.txt";
+            new FileWriter(filename).Write(new SerializerXML(), tracer.GetTraceResult());        
 
             Console.ReadKey();
         }
