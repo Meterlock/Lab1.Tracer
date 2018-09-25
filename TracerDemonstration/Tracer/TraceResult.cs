@@ -82,8 +82,7 @@ namespace Tracer
             listOfExternalMethods = new List<MethodInfo>();
         }
 
-        [DataMember(Name = "Time")]
-        public string Time
+        public long Time
         {
             get
             {
@@ -92,10 +91,12 @@ namespace Tracer
                 {
                     time += method.Time;
                 }
-                return time.ToString();
+                return time;
             }
-            set { }
         }
+
+        [DataMember(Name = "Time")]
+        public string TimeStr { get { return Time.ToString() + "ms"; } set { } }
 
         [DataMember(Name = "Methods")]
         public List<MethodInfo> InsideMethods

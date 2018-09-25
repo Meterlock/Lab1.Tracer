@@ -68,7 +68,7 @@ namespace TracerDemonstration
             test.XXXMethod();
 
             new ConsoleWriter().Write(new SerializerJSON(), tracer.GetTraceResult());
-            string filename = "D:\\УНИВЕР\\5 семестр\\ThreadsInfo.txt";
+            string filename = "D:\\УНИВЕР\\5 семестр\\СПП\\ThreadsInfo.txt";
             new FileWriter(filename).Write(new SerializerXML(), tracer.GetTraceResult());        
 
             Console.ReadKey();
